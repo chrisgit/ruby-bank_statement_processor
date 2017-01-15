@@ -1,0 +1,6 @@
+
+Date, Type, Description, Value, Balance, Account Name, Account Number
+
+01/01/2015,POS,"'3566 01JAN15 0000 , WH SMITHS",-6.56,0.0,"'Account","'12345",
+14/08/2015,POS,"'3566 14AUG15 0913 , HIGH STREET JEWELLER",-16.88,0.0,"'Account","'12345",
+24/12/2015,D/D,"'WATER AND SEWAGE COMPANY",-95.00,0.0,"'Account","'12345",

@@ -30,33 +30,44 @@ module BankStatements
       read_all_csv()
     end
 
+  # Multiple category values 
+  # http://stackoverflow.com/questions/25840356/array-include-multiple-values
+  # Match any of the following
+  # select { |t| (t.categories & ['Supermarket', 'Petrol']).any? }
+  # Match ALL of the categories
+  # categories_to_match = ['Supermarket', 'Petrol']
+  # select { |t| (t.categories & categories_to_match).length == categories_to_match.length
     def query(start_date, end_date, type, category)
-      start_date = Date.parse('01/02/1901') if start_date.nil?
-      end_date = Date.parse('31/12/2099') if end_date.nil?
-      match_type = normalize_to_array(type)
-      match_categories = normalize_to_array(category)
+      matchers = querymatchers(start_date, end_date, type, category)
       @transactions.select do | transaction |
-        query_matcher(start_date, end_date, match_type, match_categories, transaction)
+        matchers.all? { |m| m.match(transaction) }
       end
     end
 
     def transaction_year_span()
-      @transactions.map { |t| t.date.year }.uniq
+      @year_span ||= begin
+        @transactions.map { |t| t.date.year }.uniq
+      end
     end
 
     private
 
-    def query_matcher(start_date, end_date, match_type, match_categories, transaction)
-      match = transaction.date >= start_date && transaction.date <= end_date
-      match &&= (match_type.include?(transaction.type)) unless match_type.empty?
-      match &&= ((transaction.categories & match_categories).length == match_categories.length)
-      match
+    # Only return required matchers
+    def querymatchers(start_date, end_date, type, category)
+      matchers = []
+      matchers << QueryDateMatcher.new(start_date, end_date) unless start_date.nil? && end_date.nil?
+      matchers << QueryTypeMatcher.new(type) unless type.nil?
+      matchers << QueryCategoryMatcher.new(category) unless category.nil?
+      matchers
     end
 
-    def normalize_to_array(value)
-      return value if value.is_a?(Array)
-      return [value] if value.is_a?(String)
-      []
+    # Return all matchers even if not required
+    def allquerymatchers(start_date, end_date, type, category)
+      [
+        QueryDateMatcher.new(start_date, end_date),
+        QueryTypeMatcher.new(type),
+        QueryCategoryMatcher.new(category)
+      ]
     end
 
     def read_all_csv()
@@ -78,6 +89,43 @@ module BankStatements
         row[:account_name],
         row[:account_number],
         @category_processor.process_category(row[:description]))
+    end
+
+    private_constant
+
+    class QueryDateMatcher
+      def initialize(start_date,end_date)
+        @start_date = start_date || Date.parse('01/02/1901')
+        @end_date = end_date || Date.parse('31/12/2099')
+      end
+
+      def match(transaction)
+        transaction.date >= @start_date && transaction.date <= @end_date
+      end
+    end
+
+    class QueryTypeMatcher
+      def initialize(match_type)
+        @match_type = match_type if match_type.is_a?(Array)
+        @match_type = [match_type] if match_type.is_a?(String)
+        @match_type ||= []
+      end
+
+      def match(transaction)
+        @match_type.include?(transaction.type) || @match_type.empty?
+      end
+    end
+
+    class QueryCategoryMatcher
+      def initialize(categories)
+        @match_categories = categories if categories.is_a?(Array)
+        @match_categories = [categories] if categories.is_a?(String)
+        @match_categories ||= []
+      end
+
+      def match(transaction)
+        (transaction.categories & @match_categories).length == @match_categories.length
+      end
     end
   end
 end

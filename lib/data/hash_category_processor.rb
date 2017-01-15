@@ -52,3 +52,14 @@ module BankStatements
     end
   end
 end
+
+# Sainsburys supermarkets SAINSBURYS S/MKTS, SAINSBURYS, SAINSBURY'S SMKT
+# Sainsburys petrol SAINSBURYS PETROL
+# Sainsburys (ATM) SAINSBURYS B
+# Tesco TESCO STORES, TESCO EXPRESS, TESCO UPT, TESCO SACAT, TESCO GARAGE, TESCO PETROL
+# Tesco mobile TESCO MOBILE
+# Wildlife HIOW WILDLIFE TRUS
+# L&G medical LEGAL AND GEN MI C/L
+# Post Office POST OFFICE
+# Halfords  HALFORDS
+# Morrisons MORRISONS, W M MORRISON

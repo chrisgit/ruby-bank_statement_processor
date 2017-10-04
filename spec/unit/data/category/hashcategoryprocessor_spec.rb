@@ -52,7 +52,6 @@ describe 'HashCategoryProcessor' do
         end
       end
 
-      # Second Example ... double roll up
     end
   end
 end

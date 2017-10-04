@@ -2,8 +2,8 @@ module BankStatements
 
   class HashCategoryProcessor
 
-    def initialize(category_hash = nil)
-      @category_hash = category_hash || CATEGORIES
+    def initialize(categories = nil)
+      @category_hash = categories || HashCategories.default_categories
     end
 
     def process_category(description)

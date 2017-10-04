@@ -3,8 +3,9 @@ module BankStatements
   module Reports
     class SummaryByCategoryByYear < BaseReport
 
-      def initialize(summary_service = nil)
-        @summary_service = summary_service || BankStatements::SummaryService.new
+      def initialize(statement_data = nil)
+        statement_data ||= BankStatements::CSVBankData.new('.')
+        @summary_service = SummaryService.new(statement_data)
       end
 
       def run()

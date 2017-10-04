@@ -39,24 +39,28 @@ and convert it to an internal transaction structure but ignoring the balance col
 It is assumed that the CSV file will have a header row with the fields named as the example above.
 NB: the last comma on the example above is ignored but is imported as a nil field.
 
-To open a CSV file simply pass in a reference to the file or files in the constructor of CSVBankData
+To open a CSV file simply pass in a reference to the file or folder in the constructor of CSVBankData
 
+Files
 ````
-bank_data = BankStatements::CSVBankData(['/downloads/bank/statements/*.csv'])
-````
-
-There is a helper class that will simplify the construction of the bank data class called BankData, simply set the folder location of the CSV files and call the data method
-
-````
-BankStatements::BankData.statement_files = '/downloads/bank/statements'
-bank_data = BankStatements::BankData.data
+bank_data = BankStatements::CSVBankData.new(csv_files: '/downloads/bank/statements/April2017.csv')
 ````
 
-When the CSV file is read in it is categorised by looking at the description field and using a basic "include text" logic.
+For folders you can use the static helper or create an instance of the CSVBankData class
+````
+# New instance
+bank_data = BankStatements::CSVBankData.new(csv_folder: '/downloads/bank/statements')
+
+# Static helper
+bank_data = BankStatements::CSVBankData.from_folder('/downloads/bank/statements')
+````
+
+When the CSV file is read in it is categorised by looking at the description field and using a basic "does the description include a bit of text" logic handled with the HashCategoryProcessor.
 
 #### HashCategoryProcessor
 
 The HashCategoryProcessor will categorise the transactions to make it easier to find and query specific types of transaction, categorisation is based on looking for text in the description of the transaction.
+
 The HashCategoryProcessor takes a hash / array or single value into its constructor, if hash or array is passed the HashCategoryProcessor will then descend the values looking for basic text matching the items therein.
 
 e.g. Create a basic category hash of
@@ -68,7 +72,7 @@ categories = {
 
 Use by passing the hash into the constructor of the CSVBankData class
 ````
-bank_data = BankStatements::CSVBankData(['/downloads/bank/statements/*.csv'], categories)
+bank_data = BankStatements::CSVBankData.new(csv_folder: '/downloads/bank/statements', category_processor: HashCategoryProcessor.new)
 ````
 
 The example hash will categorise transactions that contain the words 'Petrol', 'Big Garage Servicing', 'Road Tax', 'Car Insurance' as 'Car Costs', it will also categorise the transaction with the element that matched in the description. For example a transaction that contains the description of 'Big Garage Petrol' will have the categories of 'Car Costs' and 'Petrol'.
@@ -83,13 +87,23 @@ categories = {
 }
 ````
 
-#### Transaction Service
-
-This class is used to query transactions and will make use of the CSVBankData query method
-
 #### Summary Service
 
 This class is used to summerise balance and total values
+
+#### A simple query
+
+````
+bank_data = BankStatements::CSVBankData.from_folder('/downloads/bank/statements')
+petrol = bank_data.query(nil,nil,nil,'Petrol')
+petrol.count # number of transactions
+petrol.map {|p| p.value }.inject(:+) # Total cost of Petrol
+
+# Transactions between £20 and £60
+require 'pp'
+cc = bank_data.transactions.select {|t| t.value < -20 && t.value > -60 }
+pp cc.map {|t| {'d': t.description, 'c': t.categories } }
+````
 
 #### Ruby versions
 

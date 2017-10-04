@@ -25,6 +25,7 @@ module BankStatements
     def process_hash(object)
       categories = []
       object.each_pair do |key, value|
+        # Remove the asterisk so we are just left with the name
         if key.start_with?('*')
           categories << key[1..-1]
           next

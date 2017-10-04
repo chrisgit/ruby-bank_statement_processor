@@ -3,9 +3,8 @@
 module BankStatements
   class SummaryService
 
-    def initialize(bank_data = nil, category_info = nil)
-      @statement_data = bank_data || BankData.data()
-      @category_info = category_info || Category.category_processor()
+    def initialize(statement_data = nil)
+      @statement_data = statement_data || BankStatements::CSVBankData.new('.')
     end
 
     # Create summary of all transaction
@@ -27,7 +26,7 @@ module BankStatements
       Balance.new(balance.paid_in.round(2), balance.paid_out.abs.round(2))
     end
 
-    # Create for each year
+    # Refactor and iterate through items once
     def balance_for_all_years
       year_range = @statement_data.transaction_year_span()
       return [] if year_range.empty?
@@ -38,10 +37,10 @@ module BankStatements
       balance
     end
 
-    # Summary total for all categories all years
+    # Summary total for all categories all years ... refactor and iterate through data once
     def grand_total_all_categories
       category_totals = {}
-      @category_info.to_a.each do |category|
+      @statement_data.categories.each do |category|
         summary_value = query(nil,nil,nil,category)
         category_totals[category] = summary_value
       end

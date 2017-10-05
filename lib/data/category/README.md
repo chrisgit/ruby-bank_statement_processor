@@ -101,3 +101,23 @@ Both versions of Dominos Pizza (with and without apostrophe) will be categorised
 The Hash Category processor is cumulative, that is a transaction can be marked as 'Supermarket', 'Tesco', 'Petrol' or 'Petrol', 'Esso', 'Maple SSTN', thereby making some summary or total reports appear incorrect as 'Tesco' will include ALL references to Tesco.
 
 The older C# program was specific about the transaction category but as mentioned earlier was more code and logic.
+
+Personal Categories
+-------------------
+As reasonable set of defaults have been set as hash categories, however personal details such as names or second bank accounts can be added to the hash by adding a file named personal_categories. The code can be as simple as the example below
+
+````
+module BankStatements
+  module HashCategories
+
+    PERSONAL_CATEGORIES =
+    {
+      'People' => ['My Dad', 'My Sister'],
+      'Pension' => ['Axa Sun Life', 'Friends Life']
+    }
+
+    CATEGORIES.merge!(PERSONAL_CATEGORIES)
+
+  end
+end
+````

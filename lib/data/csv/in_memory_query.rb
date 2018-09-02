@@ -1,7 +1,7 @@
 module BankStatements
 
   # Class to allow query across transaction data
-  class MemoryQuery
+  class InMemoryQuery
 
     attr_reader :transactions
 

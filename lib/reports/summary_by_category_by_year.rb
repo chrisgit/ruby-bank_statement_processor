@@ -3,14 +3,13 @@ module BankStatements
   module Reports
     class SummaryByCategoryByYear < BaseReport
 
-      def initialize(statement_data = nil)
-        statement_data ||= BankStatements::CSVBankData.new('.')
-        @summary_service = SummaryService.new(statement_data)
+      def initialize(category_total_service)
+        @category_total_service = category_total_service
       end
 
       def run()
         # Summary by category by year
-        data = @summary_service.pivot_table
+        data = @category_total_service.pivot_table
         return report_line('Nothing to display') if data.empty?
         heading('Summary By Category By Year')
         header_format = '%-25s' + (' %12s' * (data[0].length - 1))

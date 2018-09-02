@@ -3,13 +3,12 @@ module BankStatements
   module Reports
     class SummaryTotals < BaseReport
 
-      def initialize(statement_data = nil)
-        statement_data ||= BankStatements::CSVBankData.new('.')
-        @summary_service = SummaryService.new(statement_data)
+      def initialize(category_totals_service)
+        @category_totals_service = category_totals_service
       end
 
       def run()
-        data = @summary_service.grand_total_all_categories
+        data = @category_totals_service.all_categories_all_years
         return report_line('Nothing to display') if data.empty?
         heading('Summary By Category')
         blank_line

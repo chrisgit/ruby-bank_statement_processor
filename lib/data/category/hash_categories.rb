@@ -31,31 +31,5 @@ module BankStatements
       '*Transfer In' => [' FROM A/C' ],
       '*Transfer Out' => [' TO A/C' ]
     }
-
-    def self.default_categories
-      CATEGORIES
-    end
-
-    def self.from_yaml
-      raise NotImplementedError, 'feature currently not available'
-    end
   end
 end
-
-=begin
-
-  class Category
-    def self.category_processor
-      @data ||= begin
-        HashCategoryProcessor.new(CATEGORIES)
-      end
-    end
-
-    def self.category_info
-      @data ||= begin
-        HashCategoryInfo.new(CATEGORIES)
-      end
-    end
-  end
-
-=end

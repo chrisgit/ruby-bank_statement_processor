@@ -4,9 +4,10 @@ module BankStatements
     CATEGORIES =
     {
       'Supermarket' => ['Sainsbury', 'Tesco', 'Asda', 'Morrison', 'Waitrose', 
-        { 'M and S' => ['Marks/Spencer', 'M and S Simply Food', 'Marks Spencer', 'Marks and Spencer', 'Sacat Marks and , Spencer'] }, 'Aldi', 'Lidl', 'Co-op'],
+        { 'M and S' => ['Marks/Spencer', 'M and S Simply Food', 'Marks Spencer', 'Marks and Spencer', 'Sacat Marks and , Spencer'] }, 'Aldi', 'Lidl', 
+        {'*Co-op' => ['Co-op,']}],
       'Petrol' => ['Esso', 'Shell', 'Tesco Petrol', 'Tesco Pay at Pump', 'BP', 'Sainsburys Petrol', 'Maple SSTN', 'Murco Petroleum', 'Falcon Garage'],
-      'Utilities' => ['Co-Operative Energ', { 'British Gas' => ['British Gas', 'Brit Gas-Wales', 'Brit Gas/Elect']}, { 'Telephone' => ['BT group']} ], 
+      'Utilities' => [{ '*Co-op' => ['Co-Operative Energ']}, { 'British Gas' => ['British Gas', 'Brit Gas-Wales', 'Brit Gas/Elect']}, { 'Telephone' => ['BT group']} ], 
       'Water' => ['Southern Water', 'Thames Water'],
       'Mobile' => ['O2', 'Tesco mobile', 'Carphone Warehouse', 'Nokia', 'Vodafone'],
       'Council' => ['Basingstoke and Dean'],
@@ -23,7 +24,7 @@ module BankStatements
         'The Body Shop', 'Poundland', 'Ecco Shoes', 'The Range', 'Amazon',
         'Precious Thymes','99p Stores','Wilko Retail Limit',
         {'TK Maxx' => ['T K Maxx', 'TK Maxx']}],
-      'Credit Card' => ['Barclaycard'],
+      'Credit Card' => ['Barclaycard', 'TESCO CREDIT CARDS'],
       'Bank' => ['Natwest', 'NW AD PRIVATE CHG'],
       'Car Tax' => ['DVLA'],
       'Cinema' => ['Vue', 'Odeon'],

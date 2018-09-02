@@ -13,8 +13,8 @@ class Date
 
   def self.year_range(year)
     start_of_year = Date.new(year, 1, 1)
-    end_of_month = Date.end_of_month(year, 12)
-    return start_of_month, end_of_month
+    end_of_year = Date.end_of_month(year, 12)
+    return start_of_year, end_of_year
   end
 end
 

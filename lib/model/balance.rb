@@ -1,6 +1,6 @@
 module Model
   Balance = Struct.new(:paid_in, :paid_out) do
-    def initialize(paid_in = 0, paid_out = 0)
+    def initialize(paid_in = 0.0, paid_out = 0.0)
       super
     end
 
@@ -14,7 +14,7 @@ module Model
     end
 
     def balance
-      (paid_in - paid_out).round(2)
+      (paid_in + paid_out).round(2)
     end
 
     def to_map

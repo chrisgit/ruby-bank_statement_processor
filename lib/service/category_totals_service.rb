@@ -1,5 +1,8 @@
 # BankStatements - Summary Data
 # Split into ... YearlySummary ... MonthlySummary ... Summary (Query)
+
+
+# Change this to TotalService
 module BankStatements
   class CategoryTotalsService
 
@@ -26,6 +29,7 @@ module BankStatements
     end
 
     # Pivot table. Categories v Years
+    # Group this by the categories
     def by_category_by_year
       date_range = @statement_repository.transaction_years()
       return [] if date_range.empty?

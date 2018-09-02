@@ -19,7 +19,7 @@ module BankStatements
       total_by_categories = {}
       categories.each do |category|
         category_value = transactions.select {|t| t.categories.include?(category) }.map(&:value).inject(&:+).round(2)
-        total_by_categories[category] = category_value 
+        total_by_categories[category] = category_value
       end
       total_by_categories
     end

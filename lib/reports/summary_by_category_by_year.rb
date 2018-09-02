@@ -9,7 +9,7 @@ module BankStatements
 
       def run()
         # Summary by category by year
-        data = @category_total_service.pivot_table
+        data = @category_total_service.by_category_by_year
         return report_line('Nothing to display') if data.empty?
         heading('Summary By Category By Year')
         header_format = '%-25s' + (' %12s' * (data[0].length - 1))

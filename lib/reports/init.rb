@@ -1,5 +1,5 @@
 require_relative 'base_report'
-require_relative 'summary_by_category_by_year'
+require_relative 'category_by_year'
 require_relative 'monthly_spend'
 require_relative 'monthly_balance'
 require_relative 'miscellaneous_items'

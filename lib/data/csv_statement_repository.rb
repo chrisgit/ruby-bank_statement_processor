@@ -6,10 +6,9 @@ module BankStatements
   class CSVStatementRepository
     def initialize(folder)
       mapper = Model::TransactionMapper.new()
-      category_repository = CategoryRepository.new()
       @data = CSVStatementReader.new(folder).read do | row |
         transaction = mapper.map(row)
-        transaction.categories = category_repository.match(transaction.description)
+        transaction.categories = Processor.for(transaction.type).match(transaction.description)
         transaction
       end
     end

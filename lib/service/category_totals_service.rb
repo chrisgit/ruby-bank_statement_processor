@@ -18,23 +18,13 @@ module BankStatements
       transactions.map(&:value).inject(&:+).abs.round(2)
     end
 
-    # Summary total for all categories all years ... refactor and iterate through data once
-    def all_categories_all_years
-      category_totals = {}
-      @category_repository.info.each do |category|
-        summary_value = query(nil,nil,nil,category)
-        category_totals[category] = summary_value
-      end
-      category_totals
-    end
-
     # Pivot table. Categories v Years
     # Group this by the categories
     def by_category_by_year
       date_range = @statement_repository.transaction_years()
       return [] if date_range.empty?
       rows = [(['Category'] << date_range).flatten]
-      @category_repository.info.each do |category|
+      @category_repository.all.each do |category|
         category_by_year = []
         date_range.each do |year|
           start_date, end_date = Date.year_range(year)

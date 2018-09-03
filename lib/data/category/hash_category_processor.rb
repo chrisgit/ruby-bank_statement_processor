@@ -1,12 +1,11 @@
 module BankStatements
-
   class HashCategoryProcessor
 
-    def initialize(categories = nil)
-      @category_hash = categories || HashCategories.default_categories
+    def initialize(category_hash)
+      @category_hash = category_hash
     end
 
-    def process_category(description)
+    def match(description)
       categories = process_category_item(@category_hash, description)
       categories = categories.flatten.uniq
       return ['Misc'] if categories.empty?

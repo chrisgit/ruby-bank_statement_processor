@@ -1,15 +1,21 @@
 module BankStatements
   class HashCategoryProcessor
 
-    def initialize(category_hash)
+    def initialize(category_hash, default = nil)
       @category_hash = category_hash
+      @default = default || ['Misc']
+      @hash_info = HashCategoryInfo.new(@category_hash, @default)
     end
 
     def match(description)
       categories = process_category_item(@category_hash, description)
       categories = categories.flatten.uniq
-      return ['Misc'] if categories.empty?
+      return @default if categories.empty?
       categories
+    end
+
+    def keys
+      @hash_info.keys
     end
 
     private
@@ -49,6 +55,56 @@ module BankStatements
       return object if description.upcase.include?(object.upcase)
       ''
     end
+
+    class HashCategoryInfo
+      def initialize(category_hash, default)
+        @category_hash = category_hash
+        @default = default
+      end
+
+      def keys()
+        categories = process_category_item(@category_hash)
+        categories << @default
+        categories.flatten.uniq
+      end
+
+      private
+
+      def process_category_item(object)
+        return process_hash(object) if (object.is_a?(Hash) && !(object.empty?))
+        return process_array(object) if object.is_a?(Array)
+        return process_string(object) if object.is_a?(String)
+        []
+      end
+
+      def process_hash(object)
+        categories = []
+        object.each_pair do |key, value|
+          # Remove the asterisk so we are just left with the name
+          if key.start_with?('*')
+            categories << key[1..-1]
+            next
+          end
+          categories << key
+          categories << process_category_item(value)
+        end
+        categories
+      end
+
+      def process_array(object)
+        categories = []
+        object.each do |item|
+          categories << process_category_item(item)
+        end
+        categories
+      end
+
+      def process_string(object)
+        object
+      end
+    end
+
+    private_constant :HashCategoryInfo
   end
 end
 

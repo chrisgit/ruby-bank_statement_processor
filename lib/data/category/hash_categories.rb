@@ -1,7 +1,7 @@
 module BankStatements
   module HashCategories
 
-    CATEGORIES =
+    POINT_OF_SALE =
     {
       'Supermarket' => ['Sainsbury', 'Tesco', 'Asda', 'Morrison', 'Waitrose', 
         { 'M and S' => ['Marks/Spencer', 'M and S Simply Food', 'Marks Spencer', 'Marks and Spencer', 'Sacat Marks and , Spencer'] }, 'Aldi', 'Lidl', 

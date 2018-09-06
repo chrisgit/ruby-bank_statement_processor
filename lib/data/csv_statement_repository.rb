@@ -1,6 +1,10 @@
+require_relative 'category/hash_categories'
+require_relative 'category/direct_match_processor'
+require_relative 'category/hash_category_processor'
+require_relative 'category/personal_categories' if File.exist?(File.expand_path('category/personal_categories.rb', __dir__))
+require_relative 'category/category_processors'
 require_relative 'csv/csv_statement_reader'
 require_relative 'csv/in_memory_query'
-require_relative 'category_repository'
 
 module BankStatements
   class CSVStatementRepository

@@ -6,9 +6,8 @@
 module BankStatements
   class CategoryTotalsService
 
-    def initialize(statement_repository, category_repository)
+    def initialize(statement_repository)
       @statement_repository = statement_repository
-      @category_repository = category_repository
     end
 
     # Generic query
@@ -24,7 +23,8 @@ module BankStatements
       date_range = @statement_repository.transaction_years()
       return [] if date_range.empty?
       rows = [(['Category'] << date_range).flatten]
-      @category_repository.all.each do |category|
+      unique_categories = @statement_repository.map {|t| t.categories}.flatten.uniq
+      unique_categories.each do |category|
         category_by_year = []
         date_range.each do |year|
           start_date, end_date = Date.year_range(year)

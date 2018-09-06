@@ -9,5 +9,9 @@ module BankStatements
     def match(description)
       @category_match
     end
+
+    def keys
+      @category_match
+    end
   end
 end

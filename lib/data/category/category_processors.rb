@@ -2,7 +2,7 @@ module BankStatements
   class Processor
 
     PROCESSORS = {
-      'POS' => BankStatements::HashCategoryProcessor.new(BankStatements::HashCategories::CATEGORIES),
+      'POS' => BankStatements::HashCategoryProcessor.new(BankStatements::HashCategories::POINT_OF_SALE),
       'ATM' => BankStatements::DirectMatchProcessor.new(['ATM']),
       'ATM RFD' => BankStatements::DirectMatchProcessor.new(['ATM Refund']),
       'C/L' => BankStatements::DirectMatchProcessor.new(['Cashline (Cash machine / ATM withdrawal)']),

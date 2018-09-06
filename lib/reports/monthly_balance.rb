@@ -21,12 +21,13 @@ module BankStatements
             balance.accumulate(t.value)
             grand_total.accumulate(t.value)
           end
-          report_line("#{Date::MONTHNAMES[year_month[1]]}  #{year_month[0]}")
-          report_line(format("%-10s %12.2f", "Paid In:", balance.paid_in))
-          report_line(format("%-10s %12.2f", "Paid Out:", balance.paid_out))
-          report_line(format("%-10s %12.2f", "Balance:", balance.balance))
-          blank_line
+          report_line(format('%-20s %-10s %-12.2f %-10s %-12.2f %-10s %-12.2f',
+            "#{Date::MONTHNAMES[year_month[1]]} #{year_month[0]}",
+            'Paid In:', balance.paid_in,
+            'Paid Out:', balance.paid_out,
+            'Balance:', balance.balance))
         end
+        blank_line
         report_line('Grand Total')
         report_line(format("%-10s %12.2f", "Paid In:", grand_total.paid_in))
         report_line(format("%-10s %12.2f", "Paid Out:", grand_total.paid_out))

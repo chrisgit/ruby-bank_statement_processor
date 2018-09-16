@@ -15,7 +15,7 @@ module BankStatements
         heading('Monthly Balance')
         blank_line
         grand_total = Model::Balance.new
-        transactions.keys.each do |year_month|
+        transactions.keys.sort.each do |year_month|
           balance = Model::Balance.new
           transactions[year_month].each do |t|
             balance.accumulate(t.value)

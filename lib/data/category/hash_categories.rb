@@ -22,8 +22,8 @@ module BankStatements
         'The Works', 'Beatties', 'Costco', 'Winklebury Cycles', 'Home Bargains', 'Wilson Electrical',
         'Clintons', 'Three Store', 'B and M retail', 'Julian Graves', 'Screwfix', 'Majestic Wine', 
         'The Body Shop', 'Poundland', 'Ecco Shoes', 'The Range', 'Amazon',
-        'Precious Thymes','99p Stores','Wilko Retail Limit',
-        {'TK Maxx' => ['T K Maxx', 'TK Maxx']}],
+        'Precious Thymes','99p Stores','Wilko Retail Limit', 'Ikea',
+        'HomeSense', {'TK Maxx' => ['T K Maxx', 'TK Maxx']}],
       'Credit Card' => ['Barclaycard', 'TESCO CREDIT CARDS'],
       'Bank' => ['Natwest', 'NW AD PRIVATE CHG'],
       'Car Tax' => ['DVLA'],
@@ -32,5 +32,22 @@ module BankStatements
       '*Transfer In' => [' FROM A/C' ],
       '*Transfer Out' => [' TO A/C' ]
     }
+
+    DIRECT_DEBIT =
+    {
+      'Utilities' => [{ '*Co-op' => ['Co-Operative Energ']}, { 'British Gas' => ['British Gas', 'Brit Gas-Wales', 'Brit Gas/Elect']}, { 'Telephone' => ['BT group']} ], 
+      'Water' => ['Southern Water', 'Thames Water'],
+      'Mobile' => ['O2', 'Tesco mobile', 'Carphone Warehouse', 'Nokia', 'Vodafone'],
+      'Council' => ['Basingstoke and Dean'],
+      'Sky' => ['Sky Digital'],
+      'Credit Card' => ['Barclaycard', 'TESCO CREDIT CARDS'],
+      'Bank' => ['Natwest', 'NW AD PRIVATE CHG'],
+      'Car Tax' => ['DVLA'],
+      'Cinema' => ['Vue', 'Odeon'],
+      'Gambling' => ['National Lottery'],
+      '*Transfer In' => [' FROM A/C' ],
+      '*Transfer Out' => [' TO A/C' ]
+    }
+
   end
 end

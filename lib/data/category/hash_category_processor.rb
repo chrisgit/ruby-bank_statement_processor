@@ -1,3 +1,6 @@
+require_relative '../../refinements/string'
+using StringRefinements
+
 module BankStatements
   class HashCategoryProcessor
 
@@ -32,12 +35,7 @@ module BankStatements
       object.each_pair do |key, value|
         matches = process_category_item(value, description)
         next if matches.empty?
-        # Key only or key and matching item tags
-        if key.start_with?('*')
-          match_items << key[1..-1]
-        else
-          match_items << key << matches
-        end
+        match_items << key << matches
       end
       match_items
     end
@@ -52,8 +50,7 @@ module BankStatements
     end
 
     def process_string(object, description)
-      return object if description.upcase.include?(object.upcase)
-      ''
+      object.within?(description) ? object : ''
     end
 
     class HashCategoryInfo
@@ -80,11 +77,6 @@ module BankStatements
       def process_hash(object)
         categories = []
         object.each_pair do |key, value|
-          # Remove the asterisk so we are just left with the name
-          if key.start_with?('*')
-            categories << key[1..-1]
-            next
-          end
           categories << key
           categories << process_category_item(value)
         end

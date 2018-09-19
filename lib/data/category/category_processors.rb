@@ -5,7 +5,7 @@ module BankStatements
       'POS' => BankStatements::HashCategoryProcessor.new(BankStatements::HashCategories::CATEGORIES),
       'ATM' => BankStatements::DirectMatchProcessor.new(['ATM']),
       'ATM RFD' => BankStatements::DirectMatchProcessor.new(['ATM Refund']),
-      'C/L' => BankStatements::DirectMatchProcessor.new(['Cashline (Cash machine / ATM withdrawal)']),
+      'C/L' => BankStatements::DirectMatchProcessor.new(['Cash / ATM withdrawal']),
       'CDM' => BankStatements::DirectMatchProcessor.new(['Cash Deposit Machine']),
       'CHG' => BankStatements::DirectMatchProcessor.new(['Charge']),
       'CHARGE' => BankStatements::DirectMatchProcessor.new(['Charge']),

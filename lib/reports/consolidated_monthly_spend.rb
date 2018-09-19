@@ -1,4 +1,14 @@
-# All categories by year (Pivot)
+=begin
+Report.for(:consolidated_monthly_spend).run(Date.new(2018,1,1), Date.new(2018,1,31))
+======================================
+Consolidated Monthly Spend (unordered)
+======================================
+
+Total Value     Top Level Category
+   -XXX.XX      Bills
+    -XX.XX      Car
+    -XX.XX      Cash / ATM withdrawal
+=end
 module BankStatements
   module Reports
     class ConsolidatedMonthlySpend < BaseReport

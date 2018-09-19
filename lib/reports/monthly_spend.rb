@@ -1,4 +1,17 @@
-# All categories by year (Pivot)
+=begin
+Report.for(:monthly_spend).run(Date.new(2018,1,1), Date.new(2018,1,31))
+=============
+Monthly Spend
+=============
+
+Total Value     Categories
+    -XXX.00    Bills,Council Tax
+     -XX.00    Bills,Mobile Phone
+
+Paid In:        XXXX.XX
+Paid Out:      -XXXX.XX
+Balance:        -XXX.XX
+=end
 module BankStatements
   module Reports
     class MonthlySpend < BaseReport

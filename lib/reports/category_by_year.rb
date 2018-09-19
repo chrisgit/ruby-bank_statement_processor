@@ -1,4 +1,13 @@
-# All categories by year (Pivot)
+=begin
+Report.for(:category_by_year).run()
+===========================
+Summary By Category By Year
+===========================
+Category                                    2009         2010         2011         2012
+Accomodation                                X.XX         X.XX       XXX.XX       XXX.XX
+Bank                                        X.XX         X.XX       XXX.XX       XXX.XX
+Bills                                       X.XX         X.XX       XXX.XX       XXX.XX
+=end
 module BankStatements
   module Reports
     class CategoryByYear < BaseReport

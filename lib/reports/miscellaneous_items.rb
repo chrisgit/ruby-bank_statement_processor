@@ -1,4 +1,17 @@
 # Miscellaneous items also unmapped or incorrectly mapped
+=begin
+Report.for(:unmapped).run(Date.new(2000,1,1), Date.new(2099,12,31))
+===================
+Miscellaneous Items
+===================
+
+Date         Type   Description
+2009-01-05   POS    Some Transcation that does not match
+2009-02-23   BAC    Some Transcation that does not match
+2009-04-23   CHQ    Some Transcation that does not match
+2009-05-05   BGC    Some Transcation that does not match
+2009-08-13   POS    Some Transcation that does not match
+=end
 module BankStatements
   module Reports
     class MiscellaneousItems < BaseReport

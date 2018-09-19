@@ -10,6 +10,7 @@ Service.register(:monthly_spend, BankStatements::MonthlySpendService.new(Reposit
 
 # Reports
 Report.register(:category_by_year, BankStatements::Reports::CategoryByYear.new(Repository.for(:statements)))
+Report.register(:category_by_month, BankStatements::Reports::CategoryByMonth.new(Repository.for(:statements)))
 Report.register(:monthly_spend, BankStatements::Reports::MonthlySpend.new(Repository.for(:statements)))
 Report.register(:consolidated_monthly_spend, BankStatements::Reports::ConsolidatedMonthlySpend.new(Repository.for(:statements)))
 Report.register(:monthly_balance, BankStatements::Reports::MonthlyBalance.new(Repository.for(:statements)))

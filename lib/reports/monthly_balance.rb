@@ -1,4 +1,19 @@
-# All categories by year (Pivot)
+=begin
+Report.for(:monthly_balance).run(Date.new(2018,1,1), Date.new(2018,4,30))
+===============
+Monthly Balance
+===============
+
+January 2018         Paid In:   XXX.XX      Paid Out:  -XXX.XX     Balance:   -XXX.XX
+February 2018        Paid In:   XXX.XX      Paid Out:  -XXX.XX     Balance:   -XXX.XX
+March 2018           Paid In:   XXX.XX      Paid Out:  -XXX.XX     Balance:   -XXX.XX
+April 2018           Paid In:   XXX.XX      Paid Out:  -XXX.XX     Balance:   -XXX.XX
+
+Grand Total
+Paid In:       XXXX.XX
+Paid Out:     -XXXX.XX
+Balance:        -XX.XX
+=end
 module BankStatements
   module Reports
     class MonthlyBalance < BaseReport

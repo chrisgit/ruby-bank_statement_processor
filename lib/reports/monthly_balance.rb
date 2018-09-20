@@ -14,6 +14,9 @@ Paid In:       XXXX.XX
 Paid Out:     -XXXX.XX
 Balance:        -XX.XX
 =end
+require_relative '../refinements/date'
+using DateRefinements
+
 module BankStatements
   module Reports
     class MonthlyBalance < BaseReport

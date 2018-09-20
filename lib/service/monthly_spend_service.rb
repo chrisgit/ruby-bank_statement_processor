@@ -1,4 +1,5 @@
-require 'date'
+require_relative '../refinements/date'
+using DateRefinements
 
 # BankStatements - Summary Data
 module BankStatements

@@ -7,7 +7,7 @@ describe 'HashCategoryProcessor' do
   describe '#process_category' do
     describe 'description contains [Tesco] [Petrol]' do
       it 'category is [Tesco] [Petrol]' do
-        categories = category_processor.process_category('TESCO PETROL 4156 , READING')
+        categories = category_processor.match('TESCO PETROL 4156 , READING')
         expect(categories).to include('Tesco')
         expect(categories).to include('Petrol')
       end
@@ -17,28 +17,19 @@ describe 'HashCategoryProcessor' do
       # Category roll up, show all matches categories
       describe 'description contains [Co-operative]' do
         it 'category is [Co-op] [Co-operative]' do
-          categories = category_processor.process_category('Co-operative Stores, Tadley')
+          categories = category_processor.match('Co-operative Stores, Tadley')
           expect(categories).to include('Co-op')
           expect(categories).to include('Co-operative')
         end
       end
     end
 
-    describe 'category consolidation - prefix asterix, only use top level category' do
+    describe 'descend categories and include values at all levels' do
       # Category roll up
       describe 'description contains [Sacat Marks and , Spencer]' do
         it 'category is [M and S]' do
-          categories = category_processor.process_category('SACAT MARKS AND , SPENCER , BASINGSTOKE GB')
+          categories = category_processor.match('SACAT MARKS AND , SPENCER , BASINGSTOKE GB')
           expect(categories).to include('M and S')
-        end
-      end
-
-      # Second Example ... double roll up
-      describe 'description contains [Super Dry]' do
-        it 'category is [Clothes]' do
-          categories = category_processor.process_category('SUPER DRY STORES, BASINGSTOKE')
-          expect(categories).to include('Clothes')
-          expect(categories).to_not include('SuperDry')
         end
       end
     end
@@ -47,7 +38,7 @@ describe 'HashCategoryProcessor' do
       # Default to MISC if no category matches
       describe 'description contains [UNMATCHED]' do
         it 'category is [Misc]' do
-          categories = category_processor.process_category('UNMATCHED PAYMENT TO A/C 123456')
+          categories = category_processor.match('UNMATCHED PAYMENT TO A/C 123456')
           expect(categories).to include('Misc')
         end
       end

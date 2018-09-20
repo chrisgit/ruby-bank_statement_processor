@@ -6,5 +6,5 @@ TEST_CATEGORIES =
     { 'Co-op' => ['Co-op', 'Co-operative', 'Coop' ] } ],
   'Petrol' => ['Esso', 'Shell', 'Tesco Petrol', 'BP', 'Sainsburys Petrol', 'Maple SSTN', 'Murco Petroleum', 'Falcon Garage'],
   'High Street' => [
-  { '*Clothes' => [ 'Next', { '*SuperDry' => ['Super Dry', 'SuperDry'] } , 'ASOS', 'Matalan' ] } ]
+  { 'Clothes' => [ 'Next', { 'SuperDry' => ['Super Dry', 'SuperDry'] } , 'ASOS', 'Matalan' ] } ]
 }

@@ -23,13 +23,6 @@ module BankStatements
       end
     end
 
-    # Move to summary ...
-    def transaction_year_span()
-      @year_span ||= begin
-        @transactions.map { |t| t.date.year }.uniq
-      end
-    end
-
     private
 
     # Only return required matchers

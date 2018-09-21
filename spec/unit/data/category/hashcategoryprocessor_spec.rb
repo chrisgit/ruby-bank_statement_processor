@@ -1,7 +1,17 @@
 require 'spec_helper'
-require 'support/test_categories'
 
-describe 'HashCategoryProcessor' do
+TEST_CATEGORIES =
+{
+  'Supermarket' => ['Sainsbury', 'Tesco', 'Asda', 'Morrison', 'Waitrose', 
+    { 'M and S' => ['Marks/Spencer', 'M and S Simply Food', 'Marks Spencer', 'Marks and Spencer', 'Sacat Marks and , Spencer'] }, 
+    'Aldi', 'Lidl',
+    { 'Co-op' => ['Co-op', 'Co-operative', 'Coop' ] } ],
+  'Petrol' => ['Esso', 'Shell', 'Tesco Petrol', 'BP', 'Sainsburys Petrol', 'Maple SSTN', 'Murco Petroleum', 'Falcon Garage'],
+  'High Street' => [
+  { 'Clothes' => [ 'Next', { 'SuperDry' => ['Super Dry', 'SuperDry'] } , 'ASOS', 'Matalan' ] } ]
+}
+
+describe BankStatements::HashCategoryProcessor do
   let(:category_processor) { BankStatements::HashCategoryProcessor.new(TEST_CATEGORIES) }
 
   describe '#process_category' do
@@ -42,7 +52,6 @@ describe 'HashCategoryProcessor' do
           expect(categories).to include('Misc')
         end
       end
-
     end
   end
 end

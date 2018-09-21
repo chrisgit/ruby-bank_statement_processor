@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe 'CSVBankData' do
   before(:all) do
-    @transaction = Transaction.new()
+    @transaction = Model::Transaction.new()
   end
 
-  describe 'QueryCategoryMatcher' do
+  describe BankStatements::InMemoryQuery::QueryCategoryMatcher do
     describe 'category is nil' do
       it 'matches all categories' do
-        category_query_matcher = BankStatements::MemoryQuery::QueryCategoryMatcher.new(nil)
+        category_query_matcher = BankStatements::InMemoryQuery::QueryCategoryMatcher.new(nil)
         @transaction.categories = ['Misc']
         expect(category_query_matcher.match(@transaction)).to be true
       end
@@ -17,14 +17,14 @@ describe 'CSVBankData' do
     describe 'single category is specified' do
       describe 'transaction contains the category' do
         it 'returns true' do
-          category_query_matcher = BankStatements::MemoryQuery::QueryCategoryMatcher.new('Tesco')
+          category_query_matcher = BankStatements::InMemoryQuery::QueryCategoryMatcher.new('Tesco')
           @transaction.categories = ['Supermaket', 'Tesco', 'Petrol']
           expect(category_query_matcher.match(@transaction)).to be true
         end
       end
       describe 'transaction does not contain the category' do
         it 'returns false' do
-          category_query_matcher = BankStatements::MemoryQuery::QueryCategoryMatcher.new('Tesco')
+          category_query_matcher = BankStatements::InMemoryQuery::QueryCategoryMatcher.new('Tesco')
           @transaction.categories = ['Supermaket', 'Sainsbury', 'Petrol']
           expect(category_query_matcher.match(@transaction)).to be false
         end
@@ -34,14 +34,14 @@ describe 'CSVBankData' do
     describe 'multiple categories are specified' do
       describe 'transaction contains all of the specified categories' do
         it 'returns true' do
-          category_query_matcher = BankStatements::MemoryQuery::QueryCategoryMatcher.new(['Tesco', 'Petrol'])
+          category_query_matcher = BankStatements::InMemoryQuery::QueryCategoryMatcher.new(['Tesco', 'Petrol'])
           @transaction.categories = ['Supermaket', 'Tesco', 'Petrol']
           expect(category_query_matcher.match(@transaction)).to be true
         end
       end
       describe 'transaction does not contain all of the specified category' do
         it 'returns false' do
-          category_query_matcher = BankStatements::MemoryQuery::QueryCategoryMatcher.new(['Tesco', 'Petrol'])
+          category_query_matcher = BankStatements::InMemoryQuery::QueryCategoryMatcher.new(['Tesco', 'Petrol'])
           @transaction.categories = ['Supermaket', 'Tesco', 'Clothes']
           expect(category_query_matcher.match(@transaction)).to be false
         end

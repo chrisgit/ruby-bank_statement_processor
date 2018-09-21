@@ -25,5 +25,8 @@ module BankStatements
       end
       balance
     end
+
+    # Totals start/end/type/pos
+    # Totals by top level category
   end
 end

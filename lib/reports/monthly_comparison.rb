@@ -1,16 +1,16 @@
 =begin
 Report.for(:monthly_comparison).run(Date.new(2018,1,1), Date.new(2018,3,1))
-=============
-Monthly Comp
-=============
+==================
+Monthly Comparison
+==================
 
-Total Value     Categories
-    -XXX.00    Bills,Council Tax
-     -XX.00    Bills,Mobile Phone
+Category                                 January 2018   March 2018     Variance
+Bills,Council Tax                             -XXX.XX        XX.XX      -XXX.XX
+Bills,Mobile Phone                             -XX.XX       -XX.XX        XX.XX
 
-Paid In:        XXXX.XX
-Paid Out:      -XXXX.XX
-Balance:        -XXX.XX
+Paid In:                                      XXXX.XX      XXXX.XX        XX.XX
+Paid Out:                                    -XXXX.XX     -XXXX.XX        XX.XX
+Balance:                                      -XXX.XX      -XXX.XX       XXX.XX
 =end
 require_relative '../refinements/date'
 using DateRefinements
@@ -25,41 +25,40 @@ module BankStatements
       end
 
       def run(month1, month2)
-        month1_transactions = report_data(month1)
-        month2_transactions = report_data(month2)
-        categories = (month1_transactions.keys + month2_transactions.keys).uniq.sort
+        transactions = [report_data(month1), report_data(month2)]
+        categories = (transactions[0].keys + transactions[1].keys).uniq.sort
         return report_line('Nothing to display') if categories.empty?
         @consolidated ? heading('Monthly Comparison (consolidated)') : heading('Monthly Comparison')
         blank_line
 
-        month1_balance = Model::Balance.new
-        month2_balance = Model::Balance.new
+        balance = [ Model::Balance.new, Model::Balance.new]
         # Add number of transactions?
         # Category Month 1 Month 2   Variance
         report_line(format('%-40s %-14s %-14s %-14s',
           'Category', "#{Date::MONTHNAMES[month1.month]} #{month1.year}",
           "#{Date::MONTHNAMES[month2.month]} #{month2.year}", 'Variance'))
         categories.each do |category|
-          total_month1 = accumulate_category(month1_transactions, category)
-          total_month2 = accumulate_category(month2_transactions, category)
-
+          totals = [
+            accumulate_category(transactions[0], category),
+            accumulate_category(transactions[1], category)
+          ]
           category_name = category.is_a?(Array) ? category.join(',') : category
           report_line(format('%-40s %12.2f %12.2f %12.2f',
-            category_name[0..39], total_month1,
-            total_month2, total_month1 - total_month2))
-          month1_balance.accumulate(total_month1)
-          month2_balance.accumulate(total_month2)
+            category_name[0..39], totals[0],
+            totals[1], totals[0] - totals[1]))
+          balance[0].accumulate(totals[0])
+          balance[1].accumulate(totals[1])
         end
         blank_line
         report_line(format('%-40s %12.2f %12.2f %12.2f',
-          'Paid In:', month1_balance.paid_in, month2_balance.paid_in,
-          month1_balance.paid_in - month2_balance.paid_in))
+          'Paid In:', balance[0].paid_in, balance[1].paid_in,
+          balance[0].paid_in - balance[1].paid_in))
         report_line(format('%-40s %12.2f %12.2f %12.2f',
-          'Paid Out:', month1_balance.paid_out, month2_balance.paid_out,
-          month1_balance.paid_out - month2_balance.paid_out))
+          'Paid Out:', balance[0].paid_out, balance[1].paid_out,
+          balance[0].paid_out - balance[1].paid_out))
         report_line(format('%-40s %12.2f %12.2f %12.2f',
-          'Balance:', month1_balance.balance, month2_balance.balance,
-          month1_balance.balance - month2_balance.balance))
+          'Balance:', balance[0].balance, balance[1].balance,
+          balance[0].balance - balance[1].balance))
         blank_line
       end
 

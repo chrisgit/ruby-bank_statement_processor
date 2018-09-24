@@ -16,30 +16,38 @@ module BankStatements
   module Reports
     class MonthlySpend < BaseReport
 
-      def initialize(statement_repository)
+      def initialize(statement_repository, consolidated)
         @statement_repository = statement_repository
+        @consolidated = consolidated
       end
 
       def run(start_date, end_date)
-        transactions = @statement_repository.query(start_date, end_date, nil, nil).group_by(&:categories).sort
+        transactions = report_data(start_date, end_date)
         return report_line('Nothing to display') if transactions.empty?
-        heading('Monthly Spend')
+        @consolidated ? heading('Monthly Spend (consolidated)') : heading('Monthly Spend')
         blank_line
         balance = Model::Balance.new
         # Add number of transactions?
-        report_line(format('%-15s %-40s' % ['Total Value', 'Categories']))
+        report_line(format('%-13s %-40s' % ['Total Value', 'Categories']))
         transactions.each do |category_group|
-          categories = category_group[0]
+          categories = category_group[0].is_a?(Array) ? category_group[0].join(',') : category_group[0]
           items = category_group[1]
           total_value = items.map(&:value).inject(&:+).round(2)
-          report_line(format('%11.2f    %-40s' % [total_value, categories.join(',')]))
+          report_line(format('%11.2f   %-40s', total_value, categories))
           balance.accumulate(total_value)
         end
         blank_line
-        report_line(format("%-10s %12.2f", "Paid In:", balance.paid_in))
-        report_line(format("%-10s %12.2f", "Paid Out:", balance.paid_out))
-        report_line(format("%-10s %12.2f", "Balance:", balance.balance))
+        report_line(format('%-10s %12.2f', 'Paid In:', balance.paid_in))
+        report_line(format('%-10s %12.2f', 'Paid Out:', balance.paid_out))
+        report_line(format('%-10s %12.2f', 'Balance:', balance.balance))
         blank_line
+      end
+
+      private
+
+      def report_data(start_date, end_date)
+        group_block = @consolidated ? lambda{|t| t.categories[0]} : lambda{|t| t.categories}
+        @statement_repository.query(start_date, end_date, nil, nil).group_by(&group_block).sort
       end
     end
   end

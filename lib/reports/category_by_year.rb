@@ -12,8 +12,9 @@ module BankStatements
   module Reports
     class CategoryByYear < BaseReport
 
-      def initialize(statement_repository)
+      def initialize(statement_repository, consolidated)
         @statement_repository = statement_repository
+        @consolidated = consolidated
       end
 
       def run()
@@ -21,8 +22,13 @@ module BankStatements
         data = report_data
         return report_line('Nothing to display') if data.empty?
         heading('Summary By Category By Year')
-        header_format = '%-35s' + (' %12s' * (data[0].length - 1))
-        row_format = '%-35s' + (' %12.2f' * (data[0].length - 1))
+        if @consolidated
+          header_format = '%-30s' + (' %12s' * (data[0].length - 1))
+          row_format = '%-30s' + (' %12.2f' * (data[0].length - 1))
+        else
+          header_format = '%-45s' + (' %12s' * (data[0].length - 1))
+          row_format = '%-45s' + (' %12.2f' * (data[0].length - 1))
+        end
         report_line(header_format % data[0])
         data[1..-1].each do |row|
           report_line(row_format % row)
@@ -34,21 +40,21 @@ module BankStatements
 
       # Returns an array of arrays, first row is heading i.e. "Category", "Year", "Year", "Year"
       def report_data
-        transactions = @statement_repository.query(nil,nil,nil,nil).group_by { |t| [t.date.year, t.categories[0] ] }
+        group_block = @consolidated ? lambda { |t| [t.date.year, t.categories[0]] } : lambda { |t| [t.date.year, t.categories] }
+        transactions = @statement_repository.query(nil,nil,nil,nil).group_by(&group_block)
         year_span = transactions.keys.map {|key| key[0]}.uniq.sort
         categories = transactions.keys.map {|key| key[1]}.uniq.sort
         rows = [(['Category'] << year_span).flatten]
         categories.each do |category|
-          category_by_year = []
+          category_by_year = category.is_a?(Array) ? [category.join(',')] : [category]
           year_span.each do |year|
-            if transactions[[year, category]].nil?
-              value = 0.0
-            else
+            value = 0.00
+            if transactions.key?([year, category])
               value = transactions[[year, category]].map(&:value).inject(&:+).abs.round(2)
             end
             category_by_year << value
           end
-          rows << ([category] << category_by_year).flatten
+          rows << category_by_year
         end
         rows
       end

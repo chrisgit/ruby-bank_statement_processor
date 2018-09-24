@@ -41,7 +41,8 @@ module BankStatements
         'The Body Shop', 'Poundland', 'Ecco Shoes', 'The Range', 'Amazon',
         'Precious Thymes','99p Stores','Wilko Retail Limit', 'Ikea', 'Snappy Snaps',
         'HomeSense', 'Booksplus', 'IStore',
-        'TK Maxx'.when_matches_with('T K Maxx', 'TK Maxx'), 'Leightons', 'Game Retail Ltd'
+        'TK Maxx'.when_matches_with('T K Maxx', 'TK Maxx'), 'Leightons', 'Game Retail Ltd',
+        'Sony'.when_matches_with(' Sony ')
       ]
     }
   end
